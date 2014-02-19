@@ -144,7 +144,7 @@ Release Notes
 
 0.25
 
-- every notify (including applescript) has now access to common variables: $pomodoroName and $duration
+- every notify (including applescript) has now access to common variables: $timerName and $duration
 - you can now load applescripts (*.pomo) from filesystem
 - changed default global shortcuts to CTRL+ALT+Apple plus arrows because of textmate default keybindings
 - added two new options: ticking sound during break (enabled by default) and can restart during breaks (disabled by default)
