@@ -73,9 +73,6 @@
 	NSImage* pomodoroImage;
 	NSImage* pomodoroBreakImage;
 	NSImage* pomodoroFreezeImage;
-	NSImage* pomodoroNegativeImage;
-	NSImage* pomodoroNegativeBreakImage;
-	NSImage* pomodoroNegativeFreezeImage;
 	
 	NSSound* ringing;
 	NSSound* ringingBreak;

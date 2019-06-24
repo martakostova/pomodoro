@@ -187,28 +187,22 @@
 	enum PomoState state = pomodoro.state;
 	
 	NSImage * image;
-	NSImage * alternateImage;
 	switch (state) {
 		case PomoTicking:
 			image = pomodoroImage;
-			alternateImage = pomodoroNegativeImage;
 			break;
 		case PomoInterrupted:
 			image = pomodoroFreezeImage;
-			alternateImage = pomodoroNegativeFreezeImage;
 			break;
 		case PomoInBreak:
 			image = pomodoroBreakImage;
-			alternateImage = pomodoroNegativeBreakImage;
 			break;
 		default: // PomoReadyToStart
 			image = pomodoroImage;
-			alternateImage = pomodoroNegativeImage;
 			break;
 	}
-    
-	[statusItem setImage:image];
-	[statusItem setAlternateImage:alternateImage];
+
+	statusItem.button.image = image;
 	
 	[startPomodoro             setEnabled:(state == PomoReadyToStart) || ((state == PomoInBreak) && [self checkDefault:@"canRestartAtBreak"])];
 	[finishPomodoro            setEnabled:(state == PomoTicking)];
@@ -427,8 +421,7 @@
 	[[NSUserDefaults standardUserDefaults] setObject: [NSNumber numberWithInt:(_globalPomodoroResumed)+1] forKey:@"globalPomodoroResumed"];
     NSString* name = [NSString stringWithFormat:NSLocalizedString(@"Working on: %@",@"Tooltip for running Pomodoro"), _timerName];
 	[statusItem setToolTip:name];
-	[statusItem setImage:pomodoroImage];
-
+	statusItem.button.image = pomodoroImage;
 }
 
 -(void) breakStarted:(NSNotification*) notification {
@@ -557,19 +550,17 @@
 	pomodoroImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoro" ofType:@"png"]];
 	pomodoroBreakImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoroBreak" ofType:@"png"]];
 	pomodoroFreezeImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoroFreeze" ofType:@"png"]];
-	pomodoroNegativeImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoro_n" ofType:@"png"]];
-	pomodoroNegativeBreakImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoroBreak_n" ofType:@"png"]];
-	pomodoroNegativeFreezeImage = [[NSImage alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"pomodoroFreeze_n" ofType:@"png"]];
 
-    
+	pomodoroImage.template = TRUE;
+	pomodoroFreezeImage.template = TRUE;
+	pomodoroBreakImage.template = TRUE;
     
     tick = [NSSound soundNamed:@"tick.wav"];
 	ringing = [NSSound soundNamed:@"ring.wav"];
 	ringingBreak = [NSSound soundNamed:@"ringBreak.wav"];
 
-	[statusItem setImage:pomodoroImage];
-	[statusItem setAlternateImage:pomodoroNegativeImage];
-		
+	statusItem.button.image = pomodoroImage;
+
 	[ringing setVolume:_ringVolume/100.0];
 	[ringingBreak setVolume:_ringBreakVolume/100.0];
 	[tick setVolume:_tickVolume/100.0];
